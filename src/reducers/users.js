@@ -1,11 +1,18 @@
-import { GET_USERS } from '../actions/users';
+import { GET_USERS, GET_USER, SET_USER } from '../actions/users';
 
-const initialState = [{ name: 'Mark' }];
+const initialState = {
+  users: [],
+  selectedUser: {},
+};
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case GET_USERS: {
-      return { ...action.payload };
+      return { ...state, users: [ ...action.payload ] };
+    }
+    case GET_USER:
+    case SET_USER: {
+      return { ...state, selectedUser: { ...action.payload } };
     }
     default:
       return state;
