@@ -9,3 +9,6 @@ export const AVATARS = [
   `${SEMANTIC_BASE}/avatar/large/elliot.jpg`,
   `${SEMANTIC_BASE}/avatar2/large/matthew.png`,
 ]
+
+export const DEFAULT_IMAGE = `${SEMANTIC_BASE}/wireframe/image.png`;
+export const DEFAULT_DECRIPTION = `${SEMANTIC_BASE}/wireframe/short-paragraph.png`;

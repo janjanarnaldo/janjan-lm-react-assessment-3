@@ -9,7 +9,7 @@ import * as userSelectors from '../../selectors/users';
 import { toMemberPost } from '../../utils/pathHelper';
 
 function Member(props) {
-  const { getUsers, setUser, users } = props;
+  const { fetching, getUsers, setUser, users } = props;
   const history = useHistory();
 
   useEffect(() => {
@@ -21,20 +21,27 @@ function Member(props) {
     history.push(toMemberPost({ memberId }));
   }
 
+  const renderResults = () => {
+    return users.map(({ id, name, companyName, avatar }) =>
+    <MemberCard key={id} id={id} name={name} companyName={companyName} avatar={avatar} onViewPosts={onViewPosts} />)
+  }
+
+  const renderPlaceholder = () => {
+    return [0, 1, 2].map(v => <MemberCard key={`loader-${v}`} isPlaceholder />);
+  }
+
   return <div className="ui">
     <h2 className="ui header centered">Members</h2>
 
     <div className="ui special cards centered">
-      {
-        users.map(({ id, name, companyName, avatar }) =>
-        <MemberCard key={id} id={id} name={name} companyName={companyName} avatar={avatar} onViewPosts={onViewPosts} />)
-      }
+      { fetching ? renderPlaceholder() : renderResults() }
     </div>
   </div>
 }
 
 const mapStateToProps = state => ({
   users: userSelectors.users(state),
+  fetching: userSelectors.fetching(state),
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

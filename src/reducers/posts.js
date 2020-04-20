@@ -1,4 +1,5 @@
 import {
+  SET_FETCHING,
   GET_POSTS_BY_USER_ID,
   SET_DELETE_POST_QUEUE,
   REMOVE_DELETE_POST_QUEUE,
@@ -6,18 +7,23 @@ import {
   GET_POST_BY_ID,
   GET_POST_COMMENTS,
   CLEAR_SELECTED_POST,
+  SET_SAVING_POST,
 } from '../actions/posts';
 
 const initialState = {
+  fetching: false,
   posts: [],
   deletingPostQueue: [],
-  workingPost: {},
   selectedPost: {},
   selectedPostComments: [],
+  savingPost: false,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case SET_FETCHING: {
+      return { ...state, fetching: action.payload };
+    }
     case GET_POSTS_BY_USER_ID: {
       return { ...state, posts: [...action.payload] };
     }
@@ -40,6 +46,9 @@ export default (state = initialState, action) => {
     }
     case CLEAR_SELECTED_POST: {
       return { ...state, selectedPost: {}, selectedPostComments: [] };
+    }
+    case SET_SAVING_POST: {
+      return { ...state, savingPost: action.payload };
     }
     default:
       return state;

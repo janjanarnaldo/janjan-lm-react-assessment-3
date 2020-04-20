@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { DEFAULT_IMAGE } from '../../constants/avatars';
 
 const initialHoverState = {
   dimmableDivClass: 'blurring dimmable image',
@@ -12,17 +13,19 @@ const dimmedHoverState = {
 }
 
 export default function MemberCard(props) {
-  const { id, name, companyName, onViewPosts, avatar } = props;
+  const { id, name, companyName, onViewPosts, avatar, isPlaceholder } = props;
   const [hoverStyle, setHoverStyle] = useState(initialHoverState);
 
   const toggleHover = (isHover) => () => {
     setHoverStyle(isHover ? dimmedHoverState : initialHoverState);
   }
 
+  const useHoverState = isPlaceholder ? initialHoverState : hoverStyle;
+  
   return <div className="fluid card">
-    <div className={hoverStyle.dimmableDivClass} onMouseEnter={toggleHover(true)} onMouseLeave={toggleHover(false)}>
+    <div className={useHoverState.dimmableDivClass} onMouseEnter={toggleHover(true)} onMouseLeave={toggleHover(false)}>
       <div
-        className={hoverStyle.dimmerDivClass}
+        className={useHoverState.dimmerDivClass}
         // This is a dirty hack
         // Semantic UI needs !important
         // Issue on specifity and React not accepting !important in styled components
@@ -34,13 +37,15 @@ export default function MemberCard(props) {
           </div>
         </div>
       </div>
-      <img src={avatar} alt={name} />
+      <img src={isPlaceholder ? DEFAULT_IMAGE : avatar} alt={name || 'loader'} />
     </div>
-    <div className="content">
-      <span className="header">{name}</span>
-      <div className="meta">
-        <span className="date">{companyName}</span>
+    {
+      !isPlaceholder && <div className="content">
+        <span className="header">{name}</span>
+        <div className="meta">
+          <span className="date">{companyName}</span>
+        </div>
       </div>
-    </div>
+    }
   </div>
 }
