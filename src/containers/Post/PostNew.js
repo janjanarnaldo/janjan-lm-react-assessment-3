@@ -70,7 +70,11 @@ function PostNew(props) {
     <form className={`ui form ${error ? 'error' : ''}`} onSubmit={handleSubmit(onSubmit)}>
       <Field name="title" component={renderInput} type="text" label="Title" />
       <Field name="body" component={renderTextArea} type="textarea" label="Body" />
-      <button className={`ui button primary ${savingPost ? 'disabled loading' : ''}`} type="submit">Submit</button>
+      <button
+        className={`ui basic button primary ${savingPost ? 'disabled loading' : ''}`}
+        style={{ width: '20em' }}
+        type="submit"
+      >Submit</button>
     </form>
   </div>
 }
