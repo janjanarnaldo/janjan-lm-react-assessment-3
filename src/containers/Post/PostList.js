@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Link, useParams, useHistory } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 
 import PostCard from './PostCard';
+import BreadCrumb from '../../components/BreadCrumb';
 
 import { toMemberPost, toAddPost } from '../../utils/pathHelper';
 import { Actions as userActions } from '../../actions/users';
@@ -32,20 +33,17 @@ function Post(props) {
     return posts.map(({ id, title, body }) =>
     <PostCard key={id} id={id} title={title} body={body} onViewPost={onViewPost} onDeletePost={onDeletePost} isDeleting={deletingPostQueue.includes(id)} />)
   }
-
   const renderPlaceholder = () => {
     return [0, 1, 2].map(v => <PostCard key={`loader-${v}`} isPlaceholder />);
   }
 
+  const navigations = [{ title: 'Members', url: '/' }];
+
   return <div className="ui">
-    <div className="ui header">
-      <div className="ui breadcrumb">
-        <Link className="section" to="/">Members</Link>
-        <i className="right angle icon divider"></i>
-        <div className="active section">{user.name} Posts</div>
-        <button className="positive ui button" style={{ marginLeft: '1rem' }} onClick={onAddPost}>Add Post</button>
-      </div>
-    </div>
+    <BreadCrumb navigations={navigations}>
+      <div className="active section">{user.name} Posts</div>
+      <button className="positive ui button" style={{ marginLeft: '1rem' }} onClick={onAddPost}>Add Post</button>
+    </BreadCrumb>
 
     <div className="ui one cards centered">
       { fetching ? renderPlaceholder() : renderResults() }

@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Link, useParams, useHistory } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import PostCard from './PostCard';
+import BreadCrumb from '../../components/BreadCrumb';
 
 import { usePrevious } from '../../hooks';
 import { toMemberPost } from '../../utils/pathHelper';
@@ -45,19 +46,17 @@ function PostView(props) {
     return post.id &&
     <PostCard isSingleView id={postId} title={title} body={body} comments={comments} onDeletePost={onDeletePost} isDeleting={deletingPostQueue.includes(postId)}/>
   }
-
   const renderPlaceholder = () => <PostCard isPlaceholder />;
 
+  const navigations = [
+    { title: 'Members', url: '/' },
+    { title: `${user.name} Posts`, url: toMemberPost({ memberId }) },
+  ]
+
   return <div className="ui">
-    <div className="ui header">
-      <div className="ui breadcrumb">
-        <Link className="section" to="/">Members</Link>
-        <i className="right angle icon divider"></i>
-        <Link className="section" to={toMemberPost({ memberId })}>{user.name}</Link>
-        <i className="right angle icon divider"></i>
-        <div className="active section">Comments</div>
-      </div>
-    </div>
+    <BreadCrumb navigations={navigations}>
+      <div className="active section">Comments</div>
+    </BreadCrumb>
 
     <div className="ui one cards centered">
       { fetching ? renderPlaceholder() : renderResults() }

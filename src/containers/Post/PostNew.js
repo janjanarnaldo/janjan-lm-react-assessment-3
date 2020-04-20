@@ -1,9 +1,10 @@
 import React, { useEffect }  from 'react';
-import { Link, useParams, useHistory } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import BreadCrumb from '../../components/BreadCrumb';
 import { usePrevious } from '../../hooks';
 import { toMemberPost } from '../../utils/pathHelper';
 import { Actions as userActions } from '../../actions/users';
@@ -56,17 +57,15 @@ function PostNew(props) {
     );
   }
 
+  const navigations = [
+    { title: 'Members', url: '/' },
+    { title: `${user.name} Posts`, url: toMemberPost({ memberId }) },
+  ]
+
   return <div className="ui">
-    <div className="ui header">
-      <div className="ui breadcrumb">
-        <Link className="section" to="/">Members</Link>
-        <i className="right angle icon divider"></i>
-        <Link className="section" to={toMemberPost({ memberId })}>{user.name} Posts</Link>
-        <div className="active section"></div>
-        <i className="right angle icon divider"></i>
-        <div className="active section">New Post</div>
-      </div>
-    </div>
+    <BreadCrumb navigations={navigations}>
+      <div className="active section">New Post</div>
+    </BreadCrumb>
 
     <form className={`ui form ${error ? 'error' : ''}`} onSubmit={handleSubmit(onSubmit)}>
       <Field name="title" component={renderInput} type="text" label="Title" />
@@ -84,10 +83,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => bindActionCreators({
   getUser: userActions.getUser,
   saveNewPost: postActions.saveNewPost,
-//   getPostById: postActions.getPostById,
-//   getPostComments: postActions.getPostComments,
-//   deletePost: postActions.deletePost,
-//   clearPost: postActions.clearPost,
 }, dispatch);
 
 const validate = values => {
