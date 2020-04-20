@@ -2,3 +2,7 @@ h1.ui.center.header {
   margin-top: 2em;
   margin-bottom: 2em;
 }
+
+.display-none {
+  display: none !important;
+}

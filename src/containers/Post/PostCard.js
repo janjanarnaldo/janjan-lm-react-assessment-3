@@ -31,7 +31,7 @@ function PostCard(props) {
         <div className="ui right floated" style={{ width: '50%' }}>
           <div className="ui two buttons">
             { !isSingleView && <div className="ui basic green button" onClick={() => onViewPost(id)}>View</div> }
-            <div className={`ui basic red button ${isDeleting ? 'loading' : ''}`} onClick={() => onDeletePost(id)}>Delete</div>
+            <div className={`ui basic red button ${isDeleting ? 'disabled loading' : ''}`} onClick={() => onDeletePost(id)}>Delete</div>
           </div>
         </div>
       </div>
