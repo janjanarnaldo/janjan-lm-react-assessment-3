@@ -8,12 +8,12 @@ import { Actions as userActions } from '../../actions/users';
 import * as userSelectors from '../../selectors/users';
 import { toMemberPost } from '../../utils/pathHelper';
 
-function Member(props) {
+export function UnconnectedMember(props) {
   const { fetching, getUsers, setUser, users } = props;
   const history = useHistory();
 
   useEffect(() => {
-    getUsers();
+    getUsers && getUsers();
   }, [getUsers]);
 
   const onViewPosts = memberId => {
@@ -42,11 +42,11 @@ function Member(props) {
 const mapStateToProps = state => ({
   users: userSelectors.users(state),
   fetching: userSelectors.fetching(state),
-});
+})
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   getUsers: userActions.getUsers,
   setUser: userActions.setUser,
 }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(Member);
+export default connect(mapStateToProps, mapDispatchToProps)(UnconnectedMember);

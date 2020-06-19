@@ -38,7 +38,7 @@ export default function MemberCard(props) {
       >
         <div className="content">
           <div className="center">
-            <div className="ui inverted button" onClick={() => onViewPosts(id)}>View Posts</div>
+            <div data-testid={`view-${id}`} className="ui inverted button" onClick={() => onViewPosts(id)}>View Posts</div>
           </div>
         </div>
       </div>

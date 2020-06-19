@@ -5,10 +5,10 @@ function BreadCrumb({ navigations = [], children }) {
   return <div className="ui header">
     <div className="ui breadcrumb">
       {
-        navigations.length && navigations.map(({ title, url }) => <Fragment key={`nav-${title}`} >
+        navigations.length ? navigations.map(({ title, url }) => <Fragment key={`nav-${title}`} >
           <Link className="section" to={url}>{title}</Link>
           <i className="right angle icon divider"></i>
-        </Fragment>)
+        </Fragment>) : null
       }
       { children }
     </div>
